@@ -1,0 +1,19 @@
+[
+  { "provType": "SoftwareAgent", "id": "ex:combiner-v1.0" },
+  { "provType": "Entity", "id": "ex:field-x", "wasAttributedTo": "ex:provider-a" },
+  { "provType": "Entity", "id": "ex:field-y", "wasAttributedTo": "ex:provider-b" },
+  {
+    "provType": "Activity",
+    "id": "ex:run-1/step-2",
+    "activityType": "ex:interpolation",
+    "startedAtTime": "2026-08-20T02:05:00Z",
+    "endedAtTime": "2026-08-20T02:09:12Z",
+    "wasAssociatedWith": "ex:combiner-v1.0",
+    "used": ["ex:field-x", "ex:field-y"],
+    "qualifiedUsage": [
+      { "entity": "ex:field-x", "hadRole": "ex:primaryField" },
+      { "entity": "ex:field-y", "hadRole": "ex:referenceField" }
+    ]
+  },
+  { "provType": "Entity", "id": "ex:combined-field", "wasGeneratedBy": "ex:run-1/step-2" }
+]

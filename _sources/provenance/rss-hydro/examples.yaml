@@ -1,0 +1,20 @@
+examples:
+  - title: Minimal two-node chain
+    content: |-
+      One external input, one processing activity, one derived output. Shows the
+      flat identifier-linked form and the single-direction edge convention:
+      generation is stated once, on the Entity.
+    snippets:
+      - language: json
+        ref: examples/minimal-chain.json
+        base-uri: https://ogc.org/demo/ospd/
+
+  - title: Activity with multiple inputs
+    content: |-
+      An activity consuming two inputs must disambiguate them with
+      qualifiedUsage and hadRole, so that consumers can tell which input
+      played which part in the computation.
+    snippets:
+      - language: json
+        ref: examples/multi-input-qualified.json
+        base-uri: https://ogc.org/demo/ospd/

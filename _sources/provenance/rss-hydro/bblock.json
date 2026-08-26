@@ -1,0 +1,33 @@
+{
+  "name": "OSPD Provenance Profile (RSS-Hydro implementation)",
+  "highlighted": true,
+  "abstract": "Constrained, domain-agnostic profile of the OGC PROV building block for describing the processing steps of a geospatial workflow. One of the parallel OSPD 2026 Activity 1 implementations. Restricts provenance records to a flat, identifier-linked graph and requires each processing activity to declare its process type, its temporal extent and its responsible agent.",
+  "status": "under-development",
+  "dateTimeAddition": "2026-08-26T00:00:00Z",
+  "itemClass": "schema",
+  "register": "ogc-incubator",
+  "version": "0.1",
+  "dateOfLastChange": "2026-08-26",
+  "dependsOn": [
+    "ogc.ogc-utils.prov"
+  ],
+  "sources": [
+    {
+      "title": "PROV-O: The PROV Ontology",
+      "link": "https://www.w3.org/TR/prov-o/"
+    },
+    {
+      "title": "OSPD 2026 Call for Participation",
+      "link": "https://docs.ogc.org/request/2026/CFP_OSPD_2026.html"
+    }
+  ],
+  "maturity": "development",
+  "scope": "unstable",
+  "tags": [
+    "prov",
+    "provenance",
+    "profile",
+    "ospd",
+    "open-science"
+  ]
+}

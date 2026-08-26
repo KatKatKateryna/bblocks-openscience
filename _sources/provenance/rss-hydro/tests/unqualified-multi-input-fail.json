@@ -1,0 +1,8 @@
+[
+  { "provType": "SoftwareAgent", "id": "ex:tool" },
+  { "provType": "Entity", "id": "ex:a", "wasAttributedTo": "ex:p" },
+  { "provType": "Entity", "id": "ex:b", "wasAttributedTo": "ex:p" },
+  { "provType": "Activity", "id": "ex:step", "activityType": "ex:interpolation",
+    "startedAtTime": "2026-08-20T02:00:00Z", "endedAtTime": "2026-08-20T02:04:31Z",
+    "wasAssociatedWith": "ex:tool", "used": ["ex:a", "ex:b"] }
+]

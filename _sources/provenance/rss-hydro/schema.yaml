@@ -1,0 +1,114 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+description: >-
+  OSPD 2026 provenance profile. A constrained profile of the OGC PROV building
+  block (ogc.ogc-utils.prov) for describing the processing steps of a geospatial
+  workflow. Restricted to the flat, identifier-linked graph form: a provenance
+  record is an array of Agent, Activity and Entity nodes, each with a stable id,
+  linked to each other by reference rather than by nesting.
+
+type: array
+minItems: 1
+items:
+  oneOf:
+    - $ref: "#/$defs/ProfiledAgent"
+    - $ref: "#/$defs/ProfiledActivity"
+    - $ref: "#/$defs/ProfiledEntity"
+
+$defs:
+
+  # ---- flat-form reference: cross-links are identifiers, never nested objects
+  objectref:
+    $ref: bblocks://ogc.ogc-utils.prov#objectref
+
+  refOrRefs:
+    oneOf:
+      - $ref: "#/$defs/objectref"
+      - type: array
+        minItems: 1
+        items:
+          $ref: "#/$defs/objectref"
+
+  # ---- single canonical discriminator: provType only, unprefixed, not an array
+  noAlternateDiscriminator:
+    allOf:
+      - not:
+          required: ["prov:type"]
+      - not:
+          required: ["type"]
+
+  ProfiledAgent:
+    allOf:
+      - $ref: bblocks://ogc.ogc-utils.prov#Agent
+      - $ref: "#/$defs/noAlternateDiscriminator"
+      - type: object
+        required: [id, provType]
+        properties:
+          provType:
+            type: string
+            enum: [Agent, Organization, Person, SoftwareAgent]
+          actedOnBehalfOf:
+            $ref: "#/$defs/refOrRefs"
+
+  ProfiledActivity:
+    allOf:
+      - $ref: bblocks://ogc.ogc-utils.prov#Activity
+      - $ref: "#/$defs/noAlternateDiscriminator"
+      - type: object
+        description: >-
+          A single invocation of a distinct process type. Must declare what kind
+          of processing it was (activityType, resolvable against the OSPD
+          process-type register), when it ran, and who ran it.
+        required:
+          - id
+          - provType
+          - activityType
+          - startedAtTime
+          - endedAtTime
+          - wasAssociatedWith
+        properties:
+          provType:
+            type: string
+            const: Activity
+          activityType:
+            $ref: "#/$defs/refOrRefs"
+          used:
+            $ref: "#/$defs/refOrRefs"
+          wasInformedBy:
+            $ref: "#/$defs/refOrRefs"
+          wasAssociatedWith:
+            $ref: "#/$defs/refOrRefs"
+      # edge-direction normalisation: generation is stated on the Entity only
+      - not:
+          required: [generated]
+      # role disambiguation: more than one input requires qualified usage
+      - if:
+          required: [used]
+          properties:
+            used:
+              type: array
+              minItems: 2
+        then:
+          required: [qualifiedUsage]
+
+  ProfiledEntity:
+    allOf:
+      - $ref: bblocks://ogc.ogc-utils.prov#Entity
+      - $ref: "#/$defs/noAlternateDiscriminator"
+      - type: object
+        description: >-
+          A versioned data object. Either produced inside the workflow
+          (wasGeneratedBy) or supplied by an external provider (wasAttributedTo).
+        required: [id, provType]
+        properties:
+          provType:
+            type: string
+            const: Entity
+          wasGeneratedBy:
+            $ref: "#/$defs/objectref"
+          wasAttributedTo:
+            $ref: "#/$defs/refOrRefs"
+          wasDerivedFrom:
+            $ref: "#/$defs/refOrRefs"
+      - anyOf:
+          - required: [wasGeneratedBy]
+          - required: [wasAttributedTo]

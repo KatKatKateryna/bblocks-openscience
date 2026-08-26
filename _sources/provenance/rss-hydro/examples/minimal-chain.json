@@ -1,0 +1,33 @@
+[
+  {
+    "provType": "Organization",
+    "id": "ex:provider-a"
+  },
+  {
+    "provType": "SoftwareAgent",
+    "id": "ex:resampler-v2.1",
+    "actedOnBehalfOf": "ex:provider-a"
+  },
+  {
+    "provType": "Entity",
+    "id": "ex:input-grid-2026-08-20",
+    "entityType": "ex:GriddedField",
+    "wasAttributedTo": "ex:provider-a"
+  },
+  {
+    "provType": "Activity",
+    "id": "ex:run-1/step-1",
+    "activityType": "ex:resampling",
+    "startedAtTime": "2026-08-20T02:00:00Z",
+    "endedAtTime": "2026-08-20T02:04:31Z",
+    "wasAssociatedWith": "ex:resampler-v2.1",
+    "used": "ex:input-grid-2026-08-20"
+  },
+  {
+    "provType": "Entity",
+    "id": "ex:resampled-grid-2026-08-20",
+    "entityType": "ex:GriddedField",
+    "wasGeneratedBy": "ex:run-1/step-1",
+    "wasDerivedFrom": "ex:input-grid-2026-08-20"
+  }
+]

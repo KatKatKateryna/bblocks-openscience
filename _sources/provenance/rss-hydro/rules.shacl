@@ -1,0 +1,45 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@base <https://www.ogc.org/rules/ospd-prov-core/> .
+
+# Constraints below are graph-level and cannot be expressed in JSON Schema.
+
+<#ActivityTemporalOrder>
+    a sh:NodeShape ;
+    sh:targetClass prov:Activity ;
+    sh:message "An activity must not end before it started." ;
+    sh:sparql [
+        sh:select """
+            SELECT $this WHERE {
+              $this <http://www.w3.org/ns/prov#startedAtTime> ?s ;
+                    <http://www.w3.org/ns/prov#endedAtTime> ?e .
+              FILTER (?e < ?s)
+            }
+        """
+    ] .
+
+<#UsedBeforeGenerated>
+    a sh:NodeShape ;
+    sh:targetClass prov:Activity ;
+    sh:message "An activity must not consume an entity generated after the activity started." ;
+    sh:sparql [
+        sh:select """
+            SELECT $this WHERE {
+              $this <http://www.w3.org/ns/prov#startedAtTime> ?start ;
+                    <http://www.w3.org/ns/prov#used> ?input .
+              ?input <http://www.w3.org/ns/prov#wasGeneratedBy> ?upstream .
+              ?upstream <http://www.w3.org/ns/prov#endedAtTime> ?upstreamEnd .
+              FILTER (?upstreamEnd > ?start)
+            }
+        """
+    ] .
+
+<#NoDanglingReference>
+    a sh:NodeShape ;
+    sh:targetObjectsOf prov:used ;
+    sh:message "Every referenced entity must be described in the same provenance record." ;
+    sh:property [
+        sh:path <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ;
+        sh:minCount 1
+    ] .

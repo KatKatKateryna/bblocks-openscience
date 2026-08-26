@@ -1,0 +1,10 @@
+{
+  "@context": {
+    "prov": "http://www.w3.org/ns/prov#",
+    "wfdesc": "http://purl.org/wf4ever/wfdesc#",
+    "wfprov": "http://purl.org/wf4ever/wfprov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "activityType": { "@id": "prov:type", "@type": "@id" },
+    "entityType": { "@id": "prov:type", "@type": "@id" }
+  }
+}

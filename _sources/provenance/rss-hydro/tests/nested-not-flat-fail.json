@@ -1,0 +1,7 @@
+[
+  { "provType": "SoftwareAgent", "id": "ex:tool" },
+  { "provType": "Activity", "id": "ex:step", "activityType": "ex:resampling",
+    "startedAtTime": "2026-08-20T02:00:00Z", "endedAtTime": "2026-08-20T02:04:31Z",
+    "wasAssociatedWith": "ex:tool",
+    "used": { "provType": "Entity", "id": "ex:inline", "wasAttributedTo": "ex:provider-a" } }
+]
