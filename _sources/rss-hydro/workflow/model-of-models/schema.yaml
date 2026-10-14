@@ -1,0 +1,49 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+description: >-
+  Provenance chain of one MoM run. Per-watershed aggregation and hazard score accumulation are
+  always present; cell attribution only when the cell lookup is (re)built in the same run.
+allOf:
+  - $ref: bblocks://ogc.ogc-utils.prov
+contains:
+  $ref: '#/$defs/isProcessingActivity'
+minContains: 2
+items:
+  allOf:
+    - if:
+        $ref: '#/$defs/isProcessingActivity'
+      then:
+        allOf:
+          - $ref: bblocks://ogc.osc.rss-hydro.ontology.activities
+          - required: [dcterms:isPartOf]
+    - if:
+        required: [activityType]
+        properties:
+          activityType:
+            const: mom:WorkflowRun
+      then:
+        required: [id, name, startedAtTime, endedAtTime, wasAssociatedWith]
+    - if:
+        required: [entityType]
+      then:
+        $ref: bblocks://ogc.osc.rss-hydro.processing-activity#/$defs/datedOrVersioned
+    - $ref: bblocks://ogc.osc.rss-hydro.processing-activity#/$defs/softwareVersioned
+    - if:
+        $ref: '#/$defs/isCellLookup'
+      then:
+        required: [mom:watershedFingerprint, generatedAtTime, wasGeneratedBy, wasDerivedFrom]
+    - if:
+        required: [mom:dataType]
+      then:
+        required: [dcterms:format]
+        anyOf:
+          - required: [dcterms:hasVersion]
+          - $ref: '#/$defs/isCellLookup'
+          - required: [generatedAtTime, mom:dataTime]
+$defs:
+  isProcessingActivity:
+    $ref: bblocks://ogc.osc.rss-hydro.ontology.activities#/$defs/isMomActivity
+  isCellLookup:
+    required: [entityType]
+    properties:
+      entityType:
+        const: mom:WatershedCellLookup

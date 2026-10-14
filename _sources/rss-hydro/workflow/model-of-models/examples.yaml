@@ -1,0 +1,12 @@
+$schema: https://raw.githubusercontent.com/opengeospatial/bblocks-postprocess/refs/heads/master/ogc/bblocks/schemas/examples.schema.yaml
+examples:
+- title: Run of 2026-03-02 00:00 UTC, reusing the cell lookup
+  content: Usual run; the cell lookup comes from an earlier run. All values are illustrative.
+  snippets:
+    - language: json
+      ref: example.json
+- title: Run of 2026-03-02 00:00 UTC, rebuilding the cell lookup
+  content: Same run with cell attribution first. All values are illustrative.
+  snippets:
+    - language: json
+      ref: example-with-cell-attribution.json

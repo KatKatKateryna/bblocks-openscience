@@ -1,0 +1,21 @@
+{
+  "name": "Model of Models workflow",
+  "abstract": "Tested provenance example of a slice of the RSS-Hydro Model of Models flood workflow: GFMS cell attribution, per-watershed aggregation, and GloFAS + GFMS hazard score accumulation.",
+  "status": "under-development",
+  "dateTimeAddition": "2026-10-14T00:00:00Z",
+  "itemClass": "schema",
+  "register": "ogc-incubator",
+  "dependsOn": [
+    "ogc.osc.rss-hydro.processing-activity",
+    "ogc.osc.rss-hydro.ontology.activities"
+  ],
+  "version": "0.1",
+  "scope": "dev",
+  "tags": [
+    "flood",
+    "hydrology",
+    "GFMS",
+    "GloFAS",
+    "watershed"
+  ]
+}

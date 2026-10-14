@@ -1,0 +1,44 @@
+@prefix mom:  <https://rss-hydro.lu/ns/mom/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@base <https://rss-hydro.lu/ns/mom/rules/> .
+
+<#aggregationUsedCellLookup>
+    a sh:NodeShape ;
+    sh:targetClass mom:PerWatershedAggregation ;
+    sh:message "Aggregation must use a cell lookup" ;
+    sh:property [
+        sh:path prov:used ;
+        sh:qualifiedValueShape [ sh:class mom:WatershedCellLookup ] ;
+        sh:qualifiedMinCount 1 ;
+    ] .
+
+<#gridMatchesLookup>
+    a sh:NodeShape ;
+    sh:targetClass mom:PerWatershedAggregation ;
+    sh:sparql [
+        sh:message "Cell lookup grid must match the gridSignature of the data aggregated" ;
+        sh:select """
+            SELECT $this WHERE {
+                $this <http://www.w3.org/ns/prov#used> ?lookup .
+                ?lookup a <https://rss-hydro.lu/ns/mom/WatershedCellLookup> .
+                FILTER NOT EXISTS {
+                    ?lookup <http://www.w3.org/ns/prov#wasDerivedFrom>/<https://rss-hydro.lu/ns/mom/gridSignature> ?g .
+                    $this <http://www.w3.org/ns/prov#used> ?data .
+                    ?data <https://rss-hydro.lu/ns/mom/gridSignature> ?g .
+                }
+            }
+        """ ;
+    ] .
+
+<#hazardAccumulationUsedAggregate>
+    a sh:NodeShape ;
+    sh:targetClass mom:HazardScoreAccumulation ;
+    sh:message "Hazard accumulation must use an aggregation output" ;
+    sh:property [
+        sh:path prov:used ;
+        sh:qualifiedValueShape [
+            sh:property [ sh:path prov:wasGeneratedBy ; sh:class mom:PerWatershedAggregation ; sh:minCount 1 ]
+        ] ;
+        sh:qualifiedMinCount 1 ;
+    ] .
